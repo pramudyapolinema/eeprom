@@ -256,7 +256,7 @@ return [
     'dashboard_url' => 'home',
     'logout_url' => 'logout',
     'login_url' => 'login',
-    'register_url' => 'register',
+    'register_url' => false,
     'password_reset_url' => 'password/reset',
     'password_email_url' => 'password/email',
     'profile_url' => true,
@@ -319,7 +319,8 @@ return [
             'text' => 'Kegiatan',
             'route' => 'activities.index',
             'icon' => 'fas fa-fw fa-newspaper',
-            'can' => 'manage activity'
+            'can' => 'manage activity',
+            'active' => ['activities*']
         ],
         [
             'text' => 'Prestasi',

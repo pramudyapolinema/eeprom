@@ -67,62 +67,6 @@
 
 @section('js')
     <script>
-        $('#role').select2({
-            ajax: {
-                url: "{{ route('dropdown.roles') }}",
-                data: function(params) {
-                    return {
-                        search: params.term,
-                        type: 'public',
-                    }
-                },
-            },
-            placeholder: "Pilih Role",
-            width: '100%',
-            theme: "classic",
-            dependantDropdown: $('#addActivity'),
-        });
-
-        $('#editRole').select2({
-            ajax: {
-                url: "{{ route('dropdown.roles') }}",
-                data: function(params) {
-                    return {
-                        search: params.term,
-                        type: 'public',
-                    }
-                },
-            },
-            placeholder: "Pilih Role",
-            width: '100%',
-            theme: "classic",
-            dependantDropdown: $('#editActivity'),
-        });
-
-        $('#addActivity').on('submit', function(e) {
-            e.preventDefault();
-            $('#submitButton').attr('disabled', true);
-            $.ajax({
-                url: "{{ route('activities.store') }}",
-                type: "POST",
-                dataType: "JSON",
-                processData: false,
-                contentType: false,
-                cache: false,
-                data: new FormData(this),
-                error: function(data) {
-                    toastr.error(data.responseJSON.message, 'Error');
-                },
-                success: function(data) {
-                    toastr.success(data.message, 'Sukses');
-                    $('#addActivityModal').modal('toggle');
-                    $('#table-activities').DataTable().ajax.reload();
-                }
-            });
-            $('#submitButton').removeAttr('disabled');
-            return false;
-        });
-
         $(document).on("click", "#deleteButton", function(e) {
             e.preventDefault();
             Swal.fire({
@@ -163,55 +107,6 @@
                     });
                 }
             });
-        });
-
-        $(document).on("click", "#editButton", function(e) {
-            var id = $(this).data("id");
-            var route = "{{ route('activities.edit', ':id') }}";
-            route = route.replace(':id', id);
-            $.ajax({
-                url: route,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data) {
-                    $('#editId').val(data.id);
-                    $('#editName').val(data.name);
-                    $('#editActivityname').val(data.activityname);
-                    $('#editPhonenumber').val(data.phonenumber);
-                    $('#editEmail').val(data.email);
-                    $('#editRole').val(data.roles[0].id).trigger('change');
-                }
-            });
-        });
-
-        $('#editActivity').on('submit', function(e) {
-            e.preventDefault();
-            $('#submitEditButton').attr('disabled', true);
-            var id = $('#editId').val();
-            var route = "{{ route('activities.update', ':id') }}";
-            route = route.replace(':id', id);
-            $.ajax({
-                url: route,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                type: "POST",
-                dataType: "JSON",
-                processData: false,
-                contentType: false,
-                cache: false,
-                data: new FormData(this),
-                error: function(data) {
-                    toastr.error(data.responseJSON.message, 'Error');
-                },
-                success: function(data) {
-                    toastr.success(data.message, 'Sukses');
-                    $('#editActivityModal').modal('toggle');
-                    $('#table-activities').DataTable().ajax.reload();
-                }
-            });
-            $('#submitEditButton').removeAttr('disabled');
-            return false;
         });
     </script>
 @endsection

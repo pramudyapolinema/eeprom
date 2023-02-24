@@ -3,85 +3,107 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 class ActivityController extends Controller
 {
     public function index()
     {
-        if(request()->ajax()) {
+        if (request()->ajax()) {
             $activities = Activity::all();
             return DataTables::of($activities)
-            ->addIndexColumn()
-            ->make();
+                ->editColumn('author_id', function ($item) {
+                    return $item->author->name;
+                })
+                ->editColumn('description', function ($item) {
+                    return \Str::limit(strip_tags($item->description), 100, '...');
+                })
+                ->editColumn('created_at', function ($item) {
+                    return Carbon::parse($item->created_at)->locale('id')->isoFormat('D MMMM Y HH:mm');
+                })
+                ->addColumn('actions', function ($item) {
+                    return
+                        '
+                            <nobr>
+                            <button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit" id="editButton" data-id="' . $item->id . '" data-toggle="modal" data-target="#editUserModal">
+                                <i class="fa fa-lg fa-fw fa-pen"></i>
+                            </button>
+                            <button class="btn btn-xs btn-default text-danger mx-1 shadow" title="Delete" id="deleteButton" data-id="' . $item->id . '">
+                                <i class="fa fa-lg fa-fw fa-trash"></i>
+                            </button>
+                            </nobr>
+                        ';
+                })
+                ->addIndexColumn()
+                ->rawColumns(['actions'])
+                ->make();
         }
         return view('admin.activity.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('admin.activity.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $request->validate([
+                'title'         => 'required',
+                'description'   => 'required',
+            ], [
+                'title.required'        => 'Masukkan judul!',
+                'description.required'  => 'Masukkan deskripsi!'
+            ]);
+
+            Activity::create([
+                'author_id'     => auth()->user()->id,
+                'title'         => $request->title,
+                'description'   => $request->description
+            ]);
+
+            DB::commit();
+            return response()->json([
+                'message'   => 'Kegiatan berhasil disimpan!'
+            ], 200);
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return response()->json([
+                'message'   => $th->getMessage(),
+            ], 500);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Activity  $activity
-     * @return \Illuminate\Http\Response
-     */
     public function show(Activity $activity)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Activity  $activity
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Activity $activity)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Activity  $activity
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Activity $activity)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Activity  $activity
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Activity $activity)
+    public function destroy($id)
     {
-        //
+        DB::beginTransaction();
+        try {
+            Activity::findOrFail($id)->delete();
+            DB::commit();
+            return response()->json(['message' => 'Data berhasil dihapus'], 200);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json(['message' => $th->getMessage()], 500);
+        }
     }
 }
