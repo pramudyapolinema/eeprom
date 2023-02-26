@@ -4,6 +4,7 @@ use App\Http\Controllers\AchievementController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\DropdownController;
 use App\Http\Controllers\FinanceController;
+use App\Http\Controllers\MediaController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -45,4 +46,6 @@ Route::middleware('auth')->group(function () {
     Route::prefix('dropdown')->controller(DropdownController::class)->group(function () {
         Route::get('roles', 'getRoles')->name('dropdown.roles');
     });
+
+    Route::post('media', [MediaController::class, 'store'])->name('media');
 });
