@@ -193,6 +193,7 @@
                 },
                 success: function(data) {
                     toastr.success(data.message, 'Sukses');
+                    window.location.replace("{{ route('activities.index') }}");
                 }
             });
             $('#submitButton').removeAttr('disabled');

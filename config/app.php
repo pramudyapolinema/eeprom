@@ -178,7 +178,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
-
+        Andes2912\IndoBank\IndoBankServiceProvider::class,
     ],
 
     /*

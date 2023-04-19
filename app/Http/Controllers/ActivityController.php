@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Str;
 
 class ActivityController extends Controller
 {
@@ -19,7 +20,7 @@ class ActivityController extends Controller
                     return $item->author->name;
                 })
                 ->editColumn('description', function ($item) {
-                    return \Str::limit(strip_tags($item->description), 100, '...');
+                    return Str::limit(strip_tags($item->description), 100, '...');
                 })
                 ->editColumn('created_at', function ($item) {
                     return Carbon::parse($item->created_at)->locale('id')->isoFormat('D MMMM Y HH:mm');
@@ -61,11 +62,17 @@ class ActivityController extends Controller
                 'description.required'  => 'Masukkan deskripsi!'
             ]);
 
-            Activity::create([
+            $activity = Activity::create([
                 'author_id'     => auth()->user()->id,
                 'title'         => $request->title,
                 'description'   => $request->description
             ]);
+
+            foreach ($request->input('document', []) as $file) {
+                $activity->medias()->create([
+                    'media' => $file
+                ]);
+            }
 
             DB::commit();
             return response()->json([

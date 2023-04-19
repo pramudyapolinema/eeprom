@@ -296,10 +296,10 @@ return [
         //     'text'         => 'search',
         //     'topnav_right' => true,
         // ],
-        [
-            'type'         => 'fullscreen-widget',
-            'topnav_right' => true,
-        ],
+        // [
+        //     'type'         => 'fullscreen-widget',
+        //     'topnav_right' => true,
+        // ],
         [
             'type'         => 'darkmode-widget',
             'topnav_right' => true,
@@ -330,9 +330,26 @@ return [
         ],
         [
             'text' => 'Keuangan',
-            'route' => 'finances.index',
             'icon' => 'fas fa-fw fa-money-bill',
-            'can' => 'manage finance'
+            'can' => 'manage finance',
+            'submenu' => [
+                [
+                    'text' => 'Data keuangan',
+                    'route'  => 'finances.index',
+                ],
+                [
+                    'text' => 'Tipe keuangan',
+                    'route'  => 'finances.types.index',
+                ],
+                [
+                    'text'  => 'Rekening',
+                    'route' => 'finances.banks.index',
+                ],
+                [
+                    'text'  => 'Pendanaan Alumni',
+                    'route' => 'finances.fundings.index'
+                ]
+            ],
         ],
         [
             'header' => 'Master Data',
@@ -349,61 +366,6 @@ return [
             'route' => 'roles.index',
             'icon' => 'fas fa-fw fa-lock',
             'can'  => 'manage roles',
-        ],
-        ['header' => 'account_settings'],
-        [
-            'text'    => 'multilevel',
-            'icon'    => 'fas fa-fw fa-share',
-            'submenu' => [
-                [
-                    'text' => 'level_one',
-                    'url'  => '#',
-                ],
-                [
-                    'text'    => 'level_one',
-                    'url'     => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url'  => '#',
-                        ],
-                        [
-                            'text'    => 'level_two',
-                            'url'     => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'text' => 'level_one',
-                    'url'  => '#',
-                ],
-            ],
-        ],
-        ['header' => 'labels'],
-        [
-            'text'       => 'important',
-            'icon_color' => 'red',
-            'url'        => '#',
-        ],
-        [
-            'text'       => 'warning',
-            'icon_color' => 'yellow',
-            'url'        => '#',
-        ],
-        [
-            'text'       => 'information',
-            'icon_color' => 'cyan',
-            'url'        => '#',
         ],
     ],
 

@@ -18,4 +18,8 @@ class Activity extends Model
     public function author() {
         return $this->belongsTo(User::class, 'author_id', 'id');
     }
+
+    public function medias() {
+        return $this->hasMany(ActivityMedia::class, 'activity_id', 'id');
+    }
 }
