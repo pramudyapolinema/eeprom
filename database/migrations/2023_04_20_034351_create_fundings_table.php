@@ -23,7 +23,7 @@ return new class extends Migration
             $table->integer('unique_amount');
             $table->tinyInteger('status');
             $table->dateTime('status_updated_at');
-            $table->text('note')->default('-');
+            $table->text('note')->nullable();
             $table->string('payment_slip')->nullable();
             $table->timestamps();
         });

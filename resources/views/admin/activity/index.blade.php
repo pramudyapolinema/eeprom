@@ -27,42 +27,6 @@
             </x-adminlte-datatable>
         </div>
     </div>
-    <form id="addActivity">
-        <x-adminlte-modal id="addActivityModal" title="Add Activity">
-            @csrf
-            <x-adminlte-input name="name" label="Nama Lengkap" placeholder="Masukkan Nama Lengkap" disable-feedback />
-            <x-adminlte-input name="activityname" label="Activityname" placeholder="Masukkan activityname" disable-feedback />
-            <x-adminlte-input name="phonenumber" label="Nomor HP" placeholder="08xxx" disable-feedback />
-            <x-adminlte-input name="email" label="E-Mail" placeholder="nama@domain.com" disable-feedback />
-            <x-adminlte-input type="password" name="password" label="Password" placeholder="Masukkan password" disable-feedback />
-            <label for="role" class="form-label">Role</label>
-            <select name="role[]" id="role" class="form-control">
-            </select>
-            <x-slot name="footerSlot">
-                <x-adminlte-button theme="primary" label="Simpan" type="submit" id="submitButton" />
-                <x-adminlte-button theme="default" label="Batalkan" data-dismiss="modal" id="dismissButton" />
-            </x-slot>
-        </x-adminlte-modal>
-    </form>
-    <form id="editActivity">
-        <x-adminlte-modal id="editActivityModal" title="Edit Activity">
-            @csrf
-            @method('PUT')
-            <input type="hidden" name="id" id="editId">
-            <x-adminlte-input id="editName" name="name" label="Nama Lengkap" placeholder="Masukkan Nama Lengkap" disable-feedback />
-            <x-adminlte-input id="editActivityname" name="activityname" label="Activityname" placeholder="Masukkan activityname" disable-feedback />
-            <x-adminlte-input id="editPhonenumber" name="phonenumber" label="Nomor HP" placeholder="08xxx" disable-feedback />
-            <x-adminlte-input id="editEmail" name="email" label="E-Mail" placeholder="nama@domain.com" disable-feedback />
-            <x-adminlte-input id="editPassword" type="password" name="password" label="Password" placeholder="Masukkan password" disable-feedback />
-            <label for="editRole" class="form-label">Role</label>
-            <select id="editRole" name="role[]" class="form-control">
-            </select>
-            <x-slot name="footerSlot">
-                <x-adminlte-button theme="primary" label="Simpan" type="submit" id="submitEditButton" />
-                <x-adminlte-button theme="default" label="Batalkan" data-dismiss="modal" id="dismissEditButton" />
-            </x-slot>
-        </x-adminlte-modal>
-    </form>
 @endsection
 
 @section('js')

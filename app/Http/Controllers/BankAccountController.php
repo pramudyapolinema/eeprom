@@ -35,7 +35,7 @@ class BankAccountController extends Controller
                 ->addIndexColumn()
                 ->make();
         }
-        return view('admin.banks.index');
+        return view('admin.finances.banks.index');
     }
 
     public function create()
