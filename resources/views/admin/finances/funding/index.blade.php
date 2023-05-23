@@ -105,7 +105,7 @@
             },
             placeholder: "Pilih User",
             width: '100%',
-            theme: "classic",
+            theme: "bootstrap4",
             dependantDropdown: $('#addFunding'),
         });
 
@@ -122,7 +122,7 @@
             },
             placeholder: "Pilih Rekening",
             width: '100%',
-            theme: "classic",
+            theme: "bootstrap4",
             dependantDropdown: $('#addFunding'),
         });
 
@@ -139,7 +139,7 @@
             },
             placeholder: "Pilih Funding",
             width: '100%',
-            theme: "classic",
+            theme: "bootstrap4",
             dependantDropdown: $('#editFunding'),
         });
 

@@ -79,7 +79,7 @@
             },
             placeholder: "Pilih Role",
             width: '100%',
-            theme: "classic",
+            theme: "bootstrap4",
             dependantDropdown: $('#addUser'),
         });
 
@@ -95,7 +95,7 @@
             },
             placeholder: "Pilih Role",
             width: '100%',
-            theme: "classic",
+            theme: "bootstrap4",
             dependantDropdown: $('#editUser'),
         });
 
